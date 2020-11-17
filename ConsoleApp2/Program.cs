@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ConsoleApp2
 {
@@ -53,17 +54,47 @@ namespace ConsoleApp2
             Console.WriteLine(this + " плывет в новую точку");
         }
     }
+    class Gym
+    {
+        List<Animal> animals = new List<Animal>();
+        public void AddAnimal(Animal animal)
+        {
+            animals.Add(animal);
+        }
+        public void LetsMove()
+        {
+            for (int i = 0; i < animals.Count; ++i)
+            {
+                if (animals[i] is IWalking)
+                {
+                    IWalking iDog = animals[i] as IWalking;
+                    iDog.Walk();
+                }
+                if (animals[i] is IFlying)
+                {
+                    IFlying iBird = animals[i] as IFlying;
+                    iBird.Fly();
+                }
+                if (animals[i] is ISwimming)
+                {
+                    ISwimming iFish = animals[i] as ISwimming;
+                    iFish.Swim();
+                }
+            }
+        }
+    }
     class Program
     {
         static void Main(string[] args)
         {
             Dog Sharik = new Dog("Шарик", new DateTime(2015, 6, 1));
-            ((IWalking)Sharik).Walk();
-            Console.WriteLine(Sharik.Age);
             Bird Kesha = new Bird("Кеша", new DateTime(2017, 8, 14));
-            ((IFlying)Kesha).Fly();
             Fish Nemo = new Fish("Немо", new DateTime(2019, 2, 3));
-            ((ISwimming)Nemo).Swim();
+            Gym animal = new Gym();
+            animal.AddAnimal(Sharik);
+            animal.AddAnimal(Kesha);
+            animal.AddAnimal(Nemo);
+            animal.LetsMove();
         }
     }
 }
